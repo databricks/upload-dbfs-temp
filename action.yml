@@ -1,0 +1,40 @@
+name: 'upload-dbfs-temp'
+description: >
+  Upload a file on the local filesystem to a temporary DBFS location,
+  returning the DBFS path of the uploaded file. The file will be removed from DBFS at the end of the current GitHub
+  Workflow job.
+inputs:
+  local-path:
+    description: >
+      Path of the file to upload
+    required: true
+  dbfs-temp-dir:
+    description: >
+      Optional base DBFS directory under which to create a temporary directory containing the file.
+      If specified, must  start with 'dbfs:/'.
+      The file will be uploaded to a random subdirectory under the specified directory, i.e. given a dbfs-temp-dir of
+      dbfs:/actions-tmp and a local-path of libraries/my-library.whl, the file will be uploaded to
+      dbfs:/actions-tmp/<uuid>/my-library.whl. Use the dbfs-file-path output to access the final uploaded path of
+      the file.
+    required: false
+    default: 'dbfs:/tmp/databricks-github-actions'
+  databricks-host:
+    description: >
+      Hostname of the Databricks workspace to which to upload the file. If unspecified, the hostname
+      will be inferred from the DATABRICKS_HOST environment variable. Either this parameter or the
+      DATABRICKS_HOST environment variable must be set.
+    required: false
+  databricks-token:
+    description: >
+      Databricks REST API token to use to upload the file. If unspecified, the token
+      will be inferred from the DATABRICKS_TOKEN environment variable. Either this parameter or the
+      DATABRICKS_TOKEN environment variable must be set.
+    required: false
+outputs:
+  dbfs-file-path:
+    description: >
+      The path in DBFS that the file was uploaded to, e.g. dbfs:/.../my-library.whl
+runs:
+  using: 'node16'
+  main: 'dist/main/index.js'
+  post: 'dist/post/index.js'
