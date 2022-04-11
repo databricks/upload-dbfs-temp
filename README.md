@@ -13,8 +13,8 @@ You can use this Action in combination with [databricks/run-notebook](https://gi
 trigger code execution on Databricks for CI (e.g. on pull requests) or CD (e.g. on pushes to master).
   
 # Prerequisites
-To use this Action, you need a Databricks REST API token to trigger notebook execution and await completion. We
-recommend that you store the token in [GitHub Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+To use this Action, you need a Databricks REST API token to upload your file to DBFS and delete it at the end of 
+workflow job execution. We recommend that you store the token in [GitHub Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 to pass it into your GitHub Workflow. The following section lists recommended approaches for token creation by cloud.
 
 ## AWS
