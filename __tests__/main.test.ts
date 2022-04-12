@@ -76,6 +76,14 @@ describe('upload-dbfs-tempfile integration tests', () => {
       filePath: '__tests__/resources/data-file.csv',
       expectedAddBlocks: ['bmFtZSxhZ2UKRnJhbmssMzAK'],
       expectedDbfsUploadPath: `dbfs:/databricks-github-actions/${mockUuid}/data-file.csv`
+    },
+    {
+      dbfsTempDir: 'dbfs:/databricks-github-actions/',
+      filePath: '__tests__/resources/helloworld-0.1-py2.py3-none-any.whl',
+      expectedAddBlocks: [
+        'UEsDBBQAAAAIAPqxjFQy8tbEPgAAAEwAAAAWAAAAaGVsbG93b3JsZC9fX2luaXRfXy5weUvOSSwuVvBIzcnJ18hPykpNLtG04lIAgpTUNIXixMr4DLBUcWpOGlQCBIpSS0qL8hSUwPp0FMLzi3JSFJUAUEsDBBQAAAAIADy2jFT6M/QpogAAANAAAAAhAAAAaGVsbG93b3JsZC0wLjEuZGlzdC1pbmZvL01FVEFEQVRBRY7LDoIwFET39yv6A4CPuGmiCTsSBYlGWV/hSpu0FNuShr+3mKjbOTMnU5LHDj0md7JOmoGzTbqGCjVxJkgpE4xVHfzoKtLrpDXambNiKbBmaTBPzsuhZ0EoKIymZMR+cXg/8iwLIaQfXdoaDfnkhbGclUagxo7lFh8STrKlwcXNrTpW56aCWqF/Gqv/yYVek7TkknqOhnjnsN+mO4AvB3gDUEsDBBQAAAAIADy2jFSr+sidXwAAAG4AAAAeAAAAaGVsbG93b3JsZC0wLjEuZGlzdC1pbmZvL1dIRUVMC89ITc3RDUstKs7Mz7NSMNQz4HJPzUstSizJL7JSSErJLC6JLwepUdAw0DM20zPS5ArKzy/R9SzWDSgtSs3JTLJSKCkqTeUKSUy3UiioNNLNy89L1U3Mq4SJGCNEuABQSwMEFAAAAAgAPLaMVOYySZoNAAAACwAAACYAAABoZWxsb3dvcmxkLTAuMS5kaXN0LWluZm8vdG9wX2xldmVsLnR4dMtIzcnJL88vyknhAgBQSwMEFAAAAAgAPLaMVMfl3Rr+AAAAewEAAB8AAABoZWxsb3dvcmxkLTAuMS5kaXN0LWluZm8vUkVDT1JEdcw5doJAAADQ3rMAssiSwgIYQEVQBFRo5kV2nQyoLAOnTxrS+Q/wywyheqhfKF1CWOGqhZBpRupdfvOitO6lPcnNsFCxhV0dvWhHqM/nCAlSrApd7jxuYAThMzPCLSVLi/I/o1mGY9Lq3dIVzuulYwQqUAN1fgvbGbayRiyIOcRPPrLNkO+TCJiJWl4LdPy6iaSbfHJZUTyrfI4vG8PYz2tM4zFqhlfiP0medkR0bhgCT+TF6ijveGAJu8LqD9EYeBTHsZ/Xtm4gyvoMMS1p5/3uavCAoHgfm9WkuD9DQJMt3bl2srFdJUuVWNOv5y7zHuzf/jk/GfrhBChq8QtQSwECFAMUAAAACAD6sYxUMvLWxD4AAABMAAAAFgAAAAAAAAAAAAAApIEAAAAAaGVsbG93b3JsZC9fX2luaXRfXy5weVBLAQIUAxQAAAAIADy2jFT6M/QpogAAANAAAAAhAAAAAAAAAAAAAACkgXIAAABoZWxsb3dvcmxkLTAuMS5kaXN0LWluZm8vTUVUQURBVEFQSwECFAMUAAAACAA8toxUq/rInV8AAABuAAAAHgAAAAAAAAAAAAAApIFTAQAAaGVsbG93b3JsZC0wLjEuZGlzdC1pbmZvL1dIRUVMUEsBAhQDFAAAAAgAPLaMVOYySZoNAAAACwAAACYAAAAAAAAAAAAAAKSB7gEAAGhlbGxvd29ybGQtMC4xLmRpc3QtaW5mby90b3BfbGV2ZWwudHh0UEsBAhQDFAAAAAgAPLaMVMfl3Rr+AAAAewEAAB8AAAAAAAAAAAAAALQBPwIAAGhlbGxvd29ybGQtMC4xLmRpc3QtaW5mby9SRUNPUkRQSwUGAAAAAAUABQCAAQAAegMAAAAA'
+      ],
+      expectedDbfsUploadPath: `dbfs:/databricks-github-actions/${mockUuid}/helloworld-0.1-py2.py3-none-any.whl`
     }
   ])(
     'create temporary directory and upload notebook (file path = $filePath, dbfsTempDir =' +

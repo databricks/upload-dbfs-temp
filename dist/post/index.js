@@ -81,7 +81,7 @@ class ApiClient {
     dbfsAddFileBlocks(handle, localPath) {
         return __awaiter(this, void 0, void 0, function* () {
             const stream = fs.createReadStream(localPath, {
-                encoding: 'utf-8',
+                // Do not set encoding in order to read local path in raw binary format.
                 highWaterMark: constants_1.DBFS_UPLOAD_MAX_BYTES_PER_BLOCK
             });
             return new Promise((resolve, reject) => {
