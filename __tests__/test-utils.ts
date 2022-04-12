@@ -2,6 +2,7 @@ import {OutgoingHttpHeaders} from 'http'
 
 export const DATABRICKS_HOST = 'fakecompanynonexistent.cloud.databricks.com'
 export const TOKEN = 'abcd'
+const actionVersion = require('../package.json').version
 
 class MockApiRequest {
   hostname: string
@@ -95,7 +96,8 @@ export const getRequestMock = (): jest.Mock => {
 const getExpectedHeaders = (token: string) => {
   return {
     Authorization: `Bearer ${token}`,
-    'Content-Type': 'text/json'
+    'Content-Type': 'application/json',
+    'User-Agent': `databricks-github-action-upload-dbfs-temp/${actionVersion}`
   }
 }
 

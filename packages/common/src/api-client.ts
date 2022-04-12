@@ -7,10 +7,12 @@ import * as fs from 'fs'
 export class ApiClient {
   host: string
   token: string
+  actionVerson: string
 
   constructor(host: string, token: string) {
     this.host = host
     this.token = token
+    this.actionVerson = require('../../../package.json').version
   }
 
   private async request(
@@ -20,7 +22,8 @@ export class ApiClient {
   ): Promise<object> {
     const headers = {
       Authorization: `Bearer ${this.token}`,
-      'Content-Type': 'text/json'
+      'User-Agent': `databricks-github-action-upload-dbfs-temp/${this.actionVerson}`,
+      'Content-Type': 'application/json'
     }
     return httpRequest(this.host, path, method, headers, body)
   }

@@ -45,12 +45,14 @@ class ApiClient {
     constructor(host, token) {
         this.host = host;
         this.token = token;
+        this.actionVerson = __nccwpck_require__(306)/* .version */ .i8;
     }
     request(path, method, body) {
         return __awaiter(this, void 0, void 0, function* () {
             const headers = {
                 Authorization: `Bearer ${this.token}`,
-                'Content-Type': 'text/json'
+                'User-Agent': `databricks-github-action-upload-dbfs-temp/${this.actionVerson}`,
+                'Content-Type': 'application/json'
             };
             return (0, request_1.httpRequest)(this.host, path, method, headers, body);
         });
@@ -1972,6 +1974,14 @@ if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
 }
 exports.debug = debug; // for test
 
+
+/***/ }),
+
+/***/ 306:
+/***/ ((module) => {
+
+"use strict";
+module.exports = {"i8":"0.0.0"};
 
 /***/ }),
 
