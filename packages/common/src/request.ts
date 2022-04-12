@@ -3,12 +3,13 @@ import https from 'https'
 
 // Logic copied & coverted from https://nodejs.dev/learn/making-http-requests-with-nodejs
 export const httpRequest = async (
-  hostname: string,
+  baseUrl: string,
   path: string,
   method: string,
   headers: OutgoingHttpHeaders,
   reqBody: object
 ): Promise<object> => {
+  const hostname = new URL(baseUrl).host
   const requestBody = JSON.stringify(reqBody)
   headers['Content-Type'] = headers['Content-Type']
     ? headers['Content-Type']
