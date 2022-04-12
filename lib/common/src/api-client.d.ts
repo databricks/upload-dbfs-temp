@@ -1,6 +1,7 @@
 export declare class ApiClient {
     host: string;
     token: string;
+    actionVerson: string;
     constructor(host: string, token: string);
     private request;
     private static base64Encode;
