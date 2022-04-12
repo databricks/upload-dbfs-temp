@@ -164,7 +164,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.httpRequest = void 0;
 const https_1 = __importDefault(__nccwpck_require__(211));
 // Logic copied & coverted from https://nodejs.dev/learn/making-http-requests-with-nodejs
-const httpRequest = (hostname, path, method, headers, reqBody) => __awaiter(void 0, void 0, void 0, function* () {
+const httpRequest = (baseUrl, path, method, headers, reqBody) => __awaiter(void 0, void 0, void 0, function* () {
+    const hostname = new URL(baseUrl).host;
     const requestBody = JSON.stringify(reqBody);
     headers['Content-Type'] = headers['Content-Type']
         ? headers['Content-Type']
