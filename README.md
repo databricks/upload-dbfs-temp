@@ -78,7 +78,7 @@ jobs:
           # on the cluster used to run our notebook
           libraries-json: >
             [
-              { "whl": "${{ steps.upload_wheel.outputs.dbfs-file-path }}" },
+              { "whl": "${{ steps.upload_wheel.outputs.dbfs-file-path }}" }
             ]
           # The cluster JSON below is for Azure Databricks. On AWS and GCP, set
           # node_type_id to an appropriate node type, e.g. "i3.xlarge" for
@@ -93,7 +93,7 @@ jobs:
           access-control-list-json: >
             [
               {
-                "users": "Can View",
+                "users": "Can View"
               }
             ]
 ```
