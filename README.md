@@ -25,18 +25,9 @@ grant the Service Principal
 and [generate an API token](https://docs.databricks.com/dev-tools/api/latest/token-management.html#operation/create-obo-token) on its behalf.
 
 ## Azure
-For security reasons, we recommend using a Databricks service principal AAD token.
-You can:
-* Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-* Run `az login` to authenticate with Azure
-* Run `az ad sp create-for-rbac -n <your-service-principal-name>` to create a service principal and client secret. Store the resulting JSON output
-  as a GitHub Actions secret named e.g. `AZURE_CREDENTIALS`
-* At the start of your Workflow, use the [Azure/login Action](https://github.com/Azure/login) to authenticate to Azure
-  as your service principal, passing `${{ secrets.AZURE_CREDENTIALS }}` from the previous step.
-* Run `echo "{DATABRICKS_TOKEN}={$(az account get-access-token | jq .accessToken)}" >> $GITHUB_ENV` to create an AD token
-  on behalf of the service principal and assign its value to the `DATABRICKS_TOKEN` environment variable. The 
-  `databricks/upload-dbfs-temp` Action will automatically detect and use the value in `DATABRICKS_TOKEN` to authenticate
-  to Databricks.
+You can create a Personal Access Token from the `User Settings` page in the
+Databricks workspace and pass it to the action as an input.
+The generated token can be stored as a GitHub Actions secret named e.g. `MY_DATABRICKS_PERSONAL_TOKEN`.
 
 ## GCP
 For security reasons, we recommend inviting a service user to your Databricks workspace and using their API token.
@@ -54,69 +45,58 @@ a tempfile in DBFS, then use the [databricks/run-notebook](https://github.com/da
 notebook that depends on the wheel.
 
 ```yaml
-name: Run a single notebook on PRs
+name: Upload Python Wheel to DBFS then run notebook using whl.
 
 on:
- pull_request
+  pull_request
 
 env:
- DATABRICKS_HOST: https://adb-XXXX.XX.azuredatabricks.net
-
+  DATABRICKS_HOST: https://adb-XXXX.XX.azuredatabricks.net
+  DATABRICKS_TOKEN: ${{ secrets.MY_DATABRICKS_PERSONAL_TOKEN }}
 jobs:
- build:
-   runs-on: ubuntu-latest
-
-   steps:
-     - name: Checks out the repo
-       uses: actions/checkout@v2
-     - name: Setup python
-       uses: actions/setup-python@v2
-     - name: Build wheel
-       run:
-         python setup.py bdist_wheel
-       # Obtain an AAD token and use it to run the notebook on Databricks
-       # Note: If running on AWS or GCP, you can directly pass your service principal
-       # token via the databricks-host input instead
-     - name: Log into Azure
-       uses: Azure/login@v1
-       with:
-         creds: ${{ secrets.AZURE_CREDENTIALS }}
-     - name: Generate and save AAD token
-       run: |
-         echo "{DATABRICKS_TOKEN}={$(az account get-access-token | jq .accessToken)}" >> $GITHUB_ENV
-     - name: Upload Wheel
-       uses: databricks/upload-dbfs@v0
-       with:
-         path: dist/my-project.whl
-       id: upload_wheel
-     - name: Trigger model training notebook from PR branch
-       uses: databricks/run-notebook@v0
-       with:
-         local-notebook-path: notebooks/deployments/MainNotebook
-         # Install the wheel built in the previous step as a library
-         # on the cluster used to run our notebook
-         # TODO: the format of this input may change, in which case we should
-         # update this example accordingly
-         libraries-json: >
-           [
-             {"whl": ${{ steps.upload_wheel.outputs.dbfs-file-path }}},
-           ]
-         # The cluster JSON below is for Azure Databricks. On AWS and GCP, set
-         # node_type_id to an appropriate node type, e.g. "i3.xlarge" for
-         # AWS or "n1-highmem-4" for GCP
-         new-cluster-json: >
-           {
-             "num_workers": 1,
-             "spark_version": "10.4.x-scala2.12",
-             "node_type_id": "Standard_D3_v2"
-           }
-         # Grant all users view permission on the notebook results
-         access-control-list-json: >
-           [
-             {
-               "users": "Can View",
-             }
-           ]
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks out the repo
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+      - name: Build wheel
+        run:
+          python setup.py bdist_wheel
+      - name: Upload Wheel
+        uses: databricks/upload-dbfs-temp@v0
+        id: upload_wheel
+        with:
+          local-path: dist/my-project.whl
+      - name: Trigger model training notebook from PR branch
+        uses: databricks/run-notebook@v0
+        with:
+          local-notebook-path: notebooks/deployments/MainNotebook
+          # Install the wheel built in the previous step as a library
+          # on the cluster used to run our notebook
+          # TODO: the format of this input may change, in which case we should
+          # update this example accordingly
+          libraries-json: >
+            [
+              {"whl": ${{ steps.upload_wheel.outputs.dbfs-file-path }}},
+            ]
+          # The cluster JSON below is for Azure Databricks. On AWS and GCP, set
+          # node_type_id to an appropriate node type, e.g. "i3.xlarge" for
+          # AWS or "n1-highmem-4" for GCP
+          new-cluster-json: >
+            {
+              "num_workers": 1,
+              "spark_version": "10.4.x-scala2.12",
+              "node_type_id": "Standard_D3_v2"
+            }
+          # Grant all users view permission on the notebook results
+          access-control-list-json: >
+            [
+              {
+                "users": "Can View",
+              }
+            ]
 ```
 
 # License
