@@ -76,11 +76,9 @@ jobs:
           local-notebook-path: notebooks/deployments/MainNotebook
           # Install the wheel built in the previous step as a library
           # on the cluster used to run our notebook
-          # TODO: the format of this input may change, in which case we should
-          # update this example accordingly
           libraries-json: >
             [
-              {"whl": ${{ steps.upload_wheel.outputs.dbfs-file-path }}},
+              { "whl": "${{ steps.upload_wheel.outputs.dbfs-file-path }}" },
             ]
           # The cluster JSON below is for Azure Databricks. On AWS and GCP, set
           # node_type_id to an appropriate node type, e.g. "i3.xlarge" for
