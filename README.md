@@ -25,6 +25,7 @@ grant the Service Principal
 and [generate an API token](https://docs.databricks.com/dev-tools/api/latest/token-management.html#operation/create-obo-token) on its behalf.
 
 ## Azure
+[//]: # (TODO: Add back steps to create an Azure Service Principal.)
 You can create a Personal Access Token from the `User Settings` page in the
 Databricks workspace and pass it to the action as an input.
 The generated token can be stored as a GitHub Actions secret named e.g. `MY_DATABRICKS_PERSONAL_TOKEN`.
