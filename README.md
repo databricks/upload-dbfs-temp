@@ -1,4 +1,4 @@
-# upload-dbfs-temp V0
+# upload-dbfs-temp v0
 
 # Overview
 Given a file on the local filesystem, this Action uploads the file to a temporary path in 
