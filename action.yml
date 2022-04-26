@@ -1,8 +1,7 @@
 name: 'upload-dbfs-temp'
 description: >
   Upload a file on the local filesystem to a temporary DBFS location,
-  returning the DBFS path of the uploaded file. The file will be removed from DBFS at the end of the current GitHub
-  Workflow job.
+  returning the DBFS path of the uploaded file.
 inputs:
   local-path:
     description: >
