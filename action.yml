@@ -33,6 +33,9 @@ outputs:
   dbfs-file-path:
     description: >
       The path in DBFS that the file was uploaded to, e.g. dbfs:/.../my-library.whl
+branding:
+  icon: 'upload-cloud'
+  color: 'orange'
 runs:
   using: 'node16'
   main: 'dist/main/index.js'
