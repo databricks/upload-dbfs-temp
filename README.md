@@ -9,7 +9,7 @@ DBFS (docs:
 path of the DBFS tempfile as an Action output, and cleans up the DBFS tempfile at the end of the current
 GitHub Workflow job.
 
-You can use this Action in combination with [databricks/run-notebook](https://github.com/databricks/run-notebook) to 
+You can use this Action in combination with [databricks/run-databricks-notebook](https://github.com/databricks/run-databricks-notebook) to 
 trigger code execution on Databricks for CI (e.g. on pull requests) or CD (e.g. on pushes to master).
   
 # Prerequisites
@@ -117,7 +117,7 @@ jobs:
         with:
           local-path: dist/my-project.whl
       - name: Trigger model training notebook from PR branch
-        uses: databricks/run-notebook@v0
+        uses: databricks/run-databricks-notebook@v0
         with:
           local-notebook-path: notebooks/deployments/MainNotebook
           # Install the wheel built in the previous step as a library
